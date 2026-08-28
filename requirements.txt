@@ -1,0 +1,9 @@
+torch>=2.4
+transformers>=4.56,<5
+datasets>=2.16,<4
+accelerate
+scipy
+numpy
+tqdm
+sentencepiece
+lm_eval>=0.4.4       # only needed for zero-shot evaluation
