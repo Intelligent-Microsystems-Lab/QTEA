@@ -11,7 +11,7 @@ import torch.nn as nn
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from qtea.gptq import QTEA, QTEAConfig
+from qtea.qtea import QTEA, QTEAConfig
 from qtea.pack import bit_width, pack_layer, pack_ternary, unpack_layer, unpack_ternary
 
 

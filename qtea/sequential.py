@@ -11,7 +11,7 @@ import torch
 import torch.nn as nn
 from transformers.cache_utils import DynamicCache
 
-from .gptq import QTEA, QTEAConfig
+from .qtea import QTEA, QTEAConfig
 from .pack import bit_width, pack_layer
 
 PROJECTIONS = ["q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj", "down_proj"]

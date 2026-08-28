@@ -6,7 +6,7 @@ are shared by all columns of one quantization group (128 columns by default):
     W_ij ~= beta_i + alpha_i * T_ij ,      T_ij in {-1, 0, +1}
 
 `TernaryGroup.fit` estimates (alpha, beta) from the full-precision weights of a
-single group; `gptq.py` then refines a per-column rescale factor on top of them.
+single group; `qtea.py` then refines a per-column rescale factor on top of them.
 """
 
 import torch

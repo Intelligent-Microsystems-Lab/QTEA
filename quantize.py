@@ -10,7 +10,7 @@ import time
 import torch
 
 from qtea.data import calibration_samples
-from qtea.gptq import QTEAConfig
+from qtea.qtea import QTEAConfig
 from qtea.model import DTYPES, load_model
 from qtea.pack import save
 from qtea.sequential import quantize_model
