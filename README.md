@@ -3,8 +3,8 @@
 # QTEA: Ternary LLMs with Sparse Residual Salient Weight and By-Column Optimization
 
 <p>
-  <a href="https://arxiv.org/abs/XXXX.XXXXX">
-    <img src="https://img.shields.io/badge/arXiv-XXXX.XXXXX-b31b1b.svg?logo=arxiv" alt="arXiv">
+  <a href="https://arxiv.org/abs/2609.00224">
+    <img src="https://img.shields.io/badge/arXiv-2609.00224-b31b1b.svg?logo=arxiv" alt="arXiv">
   </a>
   <a href="https://github.com/Intelligent-Microsystems-Lab/QTEA">
     <img src="https://img.shields.io/github/stars/Intelligent-Microsystems-Lab/QTEA?style=social" alt="GitHub Stars">
@@ -19,6 +19,7 @@
   Arun M George,
   Jie Fu,
   Tareq Mahmoud,
+  Sixue Xing,
   <a href="https://siddharth-joshi.com/">Siddharth Joshi</a>
 </p>
 
@@ -204,7 +205,15 @@ families need their projection names added to `qtea/sequential.py`.
 If you find QTEA useful in your research, please cite:
 
 ```bibtex
-
+@misc{guo2026qteaternaryllmssparse,
+      title={QTEA: Ternary LLMs with Sparse Residual Salient Weight and By-Column Optimization}, 
+      author={Yipin Guo and Arun M George and Jie Fu and Tareq Mahmoud and Sixue Xing and Siddharth Joshi},
+      year={2026},
+      eprint={2609.00224},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG},
+      url={https://arxiv.org/abs/2609.00224}, 
+}
 ```
 
 ## License
