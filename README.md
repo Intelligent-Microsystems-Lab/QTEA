@@ -6,6 +6,13 @@
   <a href="https://arxiv.org/abs/2609.00224">
     <img src="https://img.shields.io/badge/arXiv-2609.00224-b31b1b.svg?logo=arxiv" alt="arXiv">
   </a>
+  <img src="https://img.shields.io/badge/EMNLP-2026%20Main-4b44ce.svg" alt="EMNLP 2026 Main">
+  <a href="https://huggingface.co/ims-lab/Qwen3-14B-base-QTEA">
+    <img src="https://img.shields.io/badge/%F0%9F%A4%97%20Model-Qwen3--14B--QTEA-yellow.svg" alt="Hugging Face model">
+  </a>
+  <a href="https://coco-alen.github.io/personal-web/qtea/">
+    <img src="https://img.shields.io/badge/Project-Page-2ea44f.svg" alt="Project Page">
+  </a>
   <a href="https://github.com/Intelligent-Microsystems-Lab/QTEA">
     <img src="https://img.shields.io/github/stars/Intelligent-Microsystems-Lab/QTEA?style=social" alt="GitHub Stars">
   </a>
@@ -23,9 +30,10 @@
   <a href="https://siddharth-joshi.com/">Siddharth Joshi</a>
 </p>
 
-<p>University of Notre Dame</p>
+<p>University of Notre Dame · EMNLP 2026 (Main)</p>
 
 </div>
+
 
 ---
 
@@ -81,6 +89,17 @@ methods we evaluated, with the advantage increasing with model size.
 - On a commercially available TSMC 22nm-based implementation, a co-designed 
   accelerator delivers **3.83×** lower latency and **69.4%** lower energy than 
   dense FP16 matrix multiplication.
+
+### Comparison with sub-2-bit / ternary PTQ baselines (paper Table 1)
+
+| Method | Qwen3-14B Wiki2 PPL ↓ | Qwen3-14B C4 PPL ↓ | Qwen3-14B 0-shot avg ↑ | Llama3-8B Wiki2 PPL ↓ | Llama3-8B C4 PPL ↓ | Llama3-8B 0-shot avg ↑ |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| FP16 | 6.38 | 9.68 | 68.23 | 6.14 | 9.45 | 65.59 |
+| GPTQ | 37.90 | 74.50 | 37.31 | 1480.43 | 394.74 | 33.30 |
+| Slim-LLM | 22.85 | 68.38 | 44.13 | 38.21 | 390.02 | 34.52 |
+| PB-LLM | 2.89e4 | 2.44e4 | 32.50 | 73.08 | 104.15 | 36.25 |
+| PT²-LLM | 16.48 | 68.13 | 45.11 | 32.19 | 129.83 | 37.79 |
+| **QTEA (1.7 bit)** | **11.78** | **26.14** | **52.65** | **24.09** | **66.45** | **40.29** |
 
 <p align="center">
   <img width="50%" src="figs/qwen_wikitext2_ppl_vs_model_size.png" alt="WikiText-2 perplexity vs. model size on Qwen3">
@@ -164,6 +183,36 @@ families need their projection names added to `qtea/sequential.py`.
 
 ---
 
+## FAQ
+
+**What is the best way to quantize an LLM below 2 bits without retraining?**
+QTEA is a post-training method: one calibration pass, no gradient training and
+no QAT. It keeps a ternary base for every weight and adds a small, hardware-friendly
+sparse residual only where ternarization hurts most. Among the sub-2-bit PTQ
+methods we evaluated (PT²-LLM, PB-LLM, Slim-LLM, GPTQ), it gives the
+best accuracy.
+
+**How is QTEA different from BitNet b1.58?**
+BitNet trains ternary models from scratch. QTEA ternarizes an *existing*
+pretrained checkpoint after training.
+
+**How is it different from GPTQ?**
+QTEA builds on the GPTQ column-by-column sweep and adds three things: a ternary
+quantizer with per-column rescale factors optimized jointly with the ternary
+assignments, a salient-column sparse residual, and an error-decay term that
+stops late columns from being over-compensated.
+
+**Does it actually run faster?**
+Yes. Five ternary values are packed per byte and evaluated with a lookup-table
+CUDA GEMV kernel: 7.2× faster per-token generation than FP16 on Llama2-70B
+with CUDA Graphs, and 3.62× on Qwen3-14B.
+
+**Which models are supported?**
+Llama-3 and Qwen3 (0.6B–14B) out of the box, plus any decoder that exposes
+`model.model.layers` with the standard seven projections. A pre-quantized
+Qwen3-14B-Base checkpoint is on
+[Hugging Face](https://huggingface.co/ims-lab/Qwen3-14B-base-QTEA).
+
 ## Repository Contents
 
 **Quantization**
@@ -202,7 +251,7 @@ families need their projection names added to `qtea/sequential.py`.
 
 ## Citation
 
-If you find QTEA useful in your research, please cite:
+QTEA appears at the **EMNLP 2026 Main Conference**. If you find it useful in your research, please cite:
 
 ```bibtex
 @misc{guo2026qteaternaryllmssparse,
